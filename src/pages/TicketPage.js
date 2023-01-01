@@ -103,16 +103,51 @@ const TicketPage = () => {
                             
                         </div>
 
-                        {/* {editMode && */}
-                        <>
-                            <input type="range" id="progress" name="progress" value={formData. progress} min="0" max="100" onChange={handleChange}/>
-                            <label>Progress</label>
-                        </>
+                        {editMode && 
+                            <>
+                                <input type="range" id="progress" name="progress" value={formData.progress} min="0" max="100" onChange={handleChange}/>
+                                <label>Progress</label>
+                            
 
-                        <label>Status</label>
-                        <select name="status" value={formData.status} onChange={handleChange}></select>
+                            <label>Status</label>
+                            <select name="status" value={formData.status} onChange={handleChange}>
+                                <option selected={formData.status === 'done'} value={'done'}>Done</option>
+                                <option selected={formData.status === 'working on it'} value={'working on it'}>Working on it</option>
+                                <option selected={formData.status === 'stuck'} value={'stuck'}>Stuck</option>
+                                <option selected={formData.status === 'not started'} value={'not started'}>Not Started</option>
+                            </select> 
+                            </>
+                        }
+                    </section>
+
+                    <section>
+                        <label htmlFor='owner'>Owner</label>
+                        <input
+                                id="owner"
+                                name="owner"
+                                type="radio"
+                                onChange={handleChange}
+                                required={true}
+                                value={formData.owner}
+                            />
+
+                        <label htmlFor='avatar'>Avatar</label>
+                        <input
+                                id="avatar"
+                                name="avatar"
+                                type="url"
+                                onChange={handleChange}
+                                required={true}
+                                value={formData.avatar}
+                            />
+                        <div className='img-preview'>
+                            {formData.avatar && (
+                                <img src={formData.avatar} alt="image preview" />
+                            )}
+                        </div>
 
                     </section>
+
                 </form>
             </div>
         </div>
