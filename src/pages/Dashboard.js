@@ -1,33 +1,49 @@
 import TicketCard from '../components/TicketCard'
+import axios from 'axios';
+import { useState, useEffect, useContext} from 'react';
 
 const Dashboard = () => {
 
-    const tickets = [
-        {
-            category: 'Q1 2022',
-            color: 'red',
-            title: 'NFT Safety 101 Videos',
-            owner: 'Joe Mama',
-            avatar: 'http://www.henhunt.co.uk/wp-content/uploads/2014/10/Person-Logo-1.png',
-            status: 'done',
-            priority: 5,
-            progress: 40,
-            description: 'Make a video on NFTs',
-            timestamp: '2022-02-11T07:36:17+0000'
-        },
-        {
-            category: 'Q2 2022',
-            color: 'blue',
-            title: 'Build and Sell AI Model',
-            owner: 'Joe Mama',
-            avatar: 'http://www.henhunt.co.uk/wp-content/uploads/2014/10/Person-Logo-1.png',
-            status: 'working on it',
-            priority: 2,
-            progress: 70,
-            description: 'Make a video on AI',
-            timestamp: '2022-02-11T07:36:17+0000'
-        },
-    ]
+    const [tickets, setTickets] = useState(null);
+
+    useEffect(async () => {
+        const response = await axios.get('http://localhost:8000/tickets');
+
+        const dataObject = response.data.data;
+
+        const arrayOfKeys = Object.keys(dataObject);
+        const arrayData = Object.keys(dataObject).map((key) => dataObject[key]);
+
+        console.log(arrayData, arrayOfKeys)
+
+    }, [])
+
+    // const tickets = [
+    //     {
+    //         category: 'Q1 2022',
+    //         color: 'red',
+    //         title: 'NFT Safety 101 Videos',
+    //         owner: 'Joe Mama',
+    //         avatar: 'http://www.henhunt.co.uk/wp-content/uploads/2014/10/Person-Logo-1.png',
+    //         status: 'done',
+    //         priority: 5,
+    //         progress: 40,
+    //         description: 'Make a video on NFTs',
+    //         timestamp: '2022-02-11T07:36:17+0000'
+    //     },
+    //     {
+    //         category: 'Q2 2022',
+    //         color: 'blue',
+    //         title: 'Build and Sell AI Model',
+    //         owner: 'Joe Mama',
+    //         avatar: 'http://www.henhunt.co.uk/wp-content/uploads/2014/10/Person-Logo-1.png',
+    //         status: 'working on it',
+    //         priority: 2,
+    //         progress: 70,
+    //         description: 'Make a video on AI',
+    //         timestamp: '2022-02-11T07:36:17+0000'
+    //     },
+    // ]
 
     const colors = [
         'rgb(255, 179, 186)',

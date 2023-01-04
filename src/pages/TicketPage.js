@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const TicketPage = () => {
 
@@ -10,8 +12,21 @@ const TicketPage = () => {
 
     const editMode = false;
 
-    const handleSubmit = () => {
-        console.log('submitted')
+    const navigate = useNavigate();  
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        if (!editMode) {
+            const response = await axios.post('http://localhost:8000/tickets', {
+                formData
+            })
+            const success = response.status === 200
+
+            if(success) {
+                navigate('/')
+            }
+        }
     }
 
     const handleChange = (e) => {
@@ -46,7 +61,7 @@ const TicketPage = () => {
                         </select>
 
                         <label htmlFor='new-category'>New Category</label>
-                        <input id="new-category" name="category" type="text" onChange={handleChange} required={true} value={formData.description} />
+                        <input id="new-category" name="category" type="text" onChange={handleChange} required={true} value={formData.category} />
 
                         <label>Priority</label>
                         <div className='multiple-input-container'>
@@ -57,7 +72,7 @@ const TicketPage = () => {
                                 type="radio"
                                 onChange={handleChange}
                                 value={1}
-                                checked={formData.priority === 1}
+                                checked={formData.priority == 1}
                             />
                             <label htmlFor='priority-1'>1</label>
 
@@ -67,7 +82,7 @@ const TicketPage = () => {
                                 type="radio"
                                 onChange={handleChange}
                                 value={2}
-                                checked={formData.priority === 2}
+                                checked={formData.priority == 2}
                             />
                             <label htmlFor='priority-2'>2</label>
 
@@ -77,7 +92,7 @@ const TicketPage = () => {
                                 type="radio"
                                 onChange={handleChange}
                                 value={3}
-                                checked={formData.priority === 3}
+                                checked={formData.priority == 3}
                             />
                             <label htmlFor='priority-3'>3</label>
 
@@ -87,7 +102,7 @@ const TicketPage = () => {
                                 type="radio"
                                 onChange={handleChange}
                                 value={4}
-                                checked={formData.priority === 4}
+                                checked={formData.priority == 4}
                             />
                             <label htmlFor='priority-4'>4</label>
 
@@ -97,7 +112,7 @@ const TicketPage = () => {
                                 type="radio"
                                 onChange={handleChange}
                                 value={5}
-                                checked={formData.priority === 5}
+                                checked={formData.priority == 5}
                             />
                             <label htmlFor='priority-5'>5</label>
                             
@@ -118,6 +133,8 @@ const TicketPage = () => {
                             </select> 
                             </>
                         }
+
+                        <input type="submit" />
                     </section>
 
                     <section>
@@ -125,7 +142,7 @@ const TicketPage = () => {
                         <input
                                 id="owner"
                                 name="owner"
-                                type="radio"
+                                type="owner"
                                 onChange={handleChange}
                                 required={true}
                                 value={formData.owner}
