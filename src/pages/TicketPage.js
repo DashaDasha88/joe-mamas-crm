@@ -74,7 +74,7 @@ const TicketPage = ({editMode}) => {
                         <input id="description" name="description" type="text" onChange={handleChange} required={true} value={formData.description} />
 
                         <label>Category</label>
-                        <select name="category" value={formData.category || categories[0]} onChange={handleChange}>
+                        <select name="category" value={formData.category || 'New Category'} onChange={handleChange}>
                             {categories?.map((category, _index) => (
                                 <option key={_index} value={category}>{category}</option>
                             ))}
