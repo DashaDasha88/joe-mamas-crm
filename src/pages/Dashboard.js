@@ -1,22 +1,47 @@
-import TicketCard from '../components/TicketCard'
-import axios from 'axios';
+import TicketCard from '../components/TicketCard';
 import { useState, useEffect, useContext} from 'react';
+import axios from 'axios';
+import CategoriesContext from '../context';
+
 
 const Dashboard = () => {
 
     const [tickets, setTickets] = useState(null);
+    const {categories, setCategories} = useContext(CategoriesContext);
 
-    useEffect(async () => {
-        const response = await axios.get('http://localhost:8000/tickets');
+    // const responseData = async () => {
+    //     const response = await axios.get('http://localhost:8000/tickets');
+    //     return response;
+    // }
 
-        const dataObject = response.data.data;
+    useEffect(() => {
 
-        const arrayOfKeys = Object.keys(dataObject);
-        const arrayData = Object.keys(dataObject).map((key) => dataObject[key]);
+        const fetchData = async () => {
+            const response = await axios.get('http://localhost:8000/tickets');
 
-        console.log(arrayData, arrayOfKeys)
+            const dataObject = response.data.data;
 
-    }, [])
+            const arrayOfKeys = Object.keys(dataObject);
+            const arrayOfData = Object.keys(dataObject).map((key) => dataObject[key]);
+    
+            const formattedArray = [];
+    
+            arrayOfKeys.forEach((key, index) => {
+                const formattedData = {...arrayOfData[index]}
+                formattedData['documentId'] = key;
+                formattedArray.push(formattedData);
+            })
+    
+            setTickets(formattedArray);
+        }
+
+        fetchData().catch(console.error);
+
+    }, []);
+
+    useEffect(() => {
+        setCategories([...new Set(tickets?.map(({category}) => category))])
+    }, [tickets]);
 
     // const tickets = [
     //     {
@@ -54,7 +79,7 @@ const Dashboard = () => {
     ]
 
     const uniqueCategories = [
-        ...new Set(tickets?.map(({ category }) => category))
+        setCategories(...new Set(tickets?.map(({ category }) => category)))
     ]
 
     return (

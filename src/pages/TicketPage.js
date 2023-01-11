@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import CategoriesContext from '../context';
 
 const TicketPage = () => {
 
@@ -11,6 +12,7 @@ const TicketPage = () => {
     })
 
     const editMode = false;
+    const { categories, setCategories} = useContext(CategoriesContext)
 
     const navigate = useNavigate();  
 
@@ -39,8 +41,6 @@ const TicketPage = () => {
         }))
     }
 
-    const categories = ['test1', 'test2']
-
     return (
         <div className="ticket">
             <h1>{editMode ? 'Update your Ticket' : 'Create a Ticket'}</h1>
@@ -54,7 +54,7 @@ const TicketPage = () => {
                         <input id="description" name="description" type="text" onChange={handleChange} required={true} value={formData.description} />
 
                         <label>Category</label>
-                        <select name="category" value={formData.category} onChange={handleChange}>
+                        <select name="category" value={formData.category || categories[0]} onChange={handleChange}>
                             {categories?.map((category, _index) => (
                                 <option key={_index} value={category}>{category}</option>
                             ))}
